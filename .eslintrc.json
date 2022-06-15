@@ -1,9 +1,11 @@
 {
     "env": {
         "browser": true,
-        "es2021": true
+        "es2021": true,    
+        "jest/globals": true
     },
     "extends": [
+        "plugin:jest/recommended",
         "plugin:react/recommended",
         "airbnb"
     ],
@@ -12,11 +14,12 @@
             "jsx": true,
             "modules": true
         },
-        "ecmaVersion": 8,
+        "ecmaVersion": 2020,
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "jest"
     ],
     "rules": {
         "react/jsx-props-no-spreading": "off",

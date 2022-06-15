@@ -21,6 +21,7 @@ const TextInput = forwardRef(
       rows,
       cols,
       maxLength,
+      disabled,
     },
     ref,
   ) => {
@@ -45,6 +46,7 @@ const TextInput = forwardRef(
           cols={cols}
           maxLength={maxLength}
           ref={ref}
+          disabled={disabled}
         />
         <HelperText helperText={helperText} error={error} />
       </Box>
@@ -59,6 +61,7 @@ TextInput.defaultProps = {
   rows: 4,
   cols: 4,
   maxLength: 140,
+  disabled: false,
 };
 
 TextInput.propTypes = {
@@ -73,6 +76,7 @@ TextInput.propTypes = {
   rows: PropTypes.number,
   cols: PropTypes.number,
   maxLength: PropTypes.number,
+  disabled: PropTypes.bool,
 };
 
 export default TextInput;

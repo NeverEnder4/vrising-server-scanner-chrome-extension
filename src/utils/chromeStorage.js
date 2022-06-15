@@ -1,4 +1,5 @@
 /* global chrome */
+import find from 'lodash/find';
 
 function handlePromise({ resolve, reject, data }) {
   const { lastError } = chrome.runtime;
@@ -6,9 +7,9 @@ function handlePromise({ resolve, reject, data }) {
   else resolve(data);
 }
 
-async function get({ keyList }) {
+async function get({ keys }) {
   const promise = new Promise((resolve, reject) => {
-    chrome.storage.sync.get(keyList, (data) => {
+    chrome.storage.sync.get(keys, (data) => {
       handlePromise({ resolve, reject, data });
     });
   });
@@ -17,9 +18,9 @@ async function get({ keyList }) {
   return result;
 }
 
-async function set({ keyValueMap }) {
+async function set({ keys }) {
   const promise = new Promise((resolve, reject) => {
-    chrome.storage.sync.set(keyValueMap, (data) => {
+    chrome.storage.sync.set(keys, (data) => {
       handlePromise({ resolve, reject, data });
     });
   });
@@ -28,9 +29,9 @@ async function set({ keyValueMap }) {
   return result;
 }
 
-async function remove({ keyList }) {
+async function remove({ keys }) {
   const promise = new Promise((resolve, reject) => {
-    chrome.storage.sync.remove(keyList, (data) => {
+    chrome.storage.sync.remove(keys, (data) => {
       handlePromise({ resolve, reject, data });
     });
   });
@@ -39,13 +40,21 @@ async function remove({ keyList }) {
   return result;
 }
 
-async function getServers({ serverList }) {
-  console.log(chrome, 'CHROME');
+async function getAllServers() {
   const defaultValue = { servers: [] };
-  const response = await get({ keyList: [defaultValue] });
-  console.log(response, serverList, 'get servers');
+  const response = await get({ keys: defaultValue });
+  return response.servers;
+}
+
+async function getServer({ server }) {
+  const defaultValue = { servers: [] };
+  const response = await get({ keys: defaultValue });
+  console.log(response.servers, 'GET SERVER');
+  const targetServer = find(response.servers, { queryConnect: server });
+
+  return targetServer || null;
 }
 
 export default {
-  get, set, remove, getServers,
+  get, set, remove, getAllServers, getServer,
 };

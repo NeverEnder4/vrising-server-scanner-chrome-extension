@@ -10,7 +10,7 @@ import useInputStyles from './useInputStyles';
 const TextInput = forwardRef(
   (
     {
-      value, onChange, onBlur, id, name, label, error, helperText, maxLength,
+      value, onChange, onBlur, id, name, label, error, helperText, maxLength, disabled,
     },
     ref,
   ) => {
@@ -34,6 +34,7 @@ const TextInput = forwardRef(
           name={name}
           maxLength={maxLength}
           ref={ref}
+          disabled={disabled}
         />
         <HelperText helperText={helperText} error={error} />
       </Box>
@@ -46,6 +47,7 @@ TextInput.defaultProps = {
   helperText: '',
   error: false,
   maxLength: undefined,
+  disabled: false,
 };
 
 TextInput.propTypes = {
@@ -58,6 +60,7 @@ TextInput.propTypes = {
   error: PropTypes.bool,
   helperText: PropTypes.string,
   maxLength: PropTypes.number,
+  disabled: PropTypes.bool,
 };
 
 export default TextInput;

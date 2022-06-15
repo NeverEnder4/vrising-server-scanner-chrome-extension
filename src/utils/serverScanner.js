@@ -1,5 +1,7 @@
 import isEmpty from 'lodash/isEmpty';
 
+import serverString from './serverString';
+
 const KEY = process.env.REACT_APP_SERVER_SCANNER_KEY;
 const HOST = process.env.REACT_APP_SERVER_SCANNER_HOST;
 
@@ -21,7 +23,7 @@ async function get({ serverList }) {
 
   const responses = await Promise.all(
     serverList.map(async (server) => {
-      const [hostIp, queryPort] = server.split(':');
+      const { hostIp, queryPort } = serverString.parse({ server });
       const url = `https://${HOST}/${hostIp}/${queryPort}`;
 
       const data = await fetch(url, options);

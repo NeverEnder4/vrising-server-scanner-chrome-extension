@@ -2,15 +2,20 @@ import React, { useState } from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import {
-  Box, Grid, Button, useTheme,
+  Box, Grid, Button, useTheme, LinearProgress,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useForm, Controller } from 'react-hook-form';
 import * as yup from 'yup';
 
-import { TextInput, NumberInput, TextArea } from '../../../components/Inputs';
-// import chromeStorage from '../../../utils/chromeStorage';
-// import serverScanner from '../../../utils/serverScanner';
+import {
+  TextInput,
+  NumberInput,
+  TextArea,
+  HelperText,
+} from '../../../components/Inputs';
+import chromeStorage from '../../../utils/chromeStorage';
+import serverScanner from '../../../utils/serverScanner';
 import AddServerFormHeader from './AddServerFormHeader';
 
 const NICKNAME_MAX_LENGTH = 20;
@@ -26,7 +31,7 @@ const schema = yup.object().shape({
 function AddServerForm({ handleCloseModal, titleId }) {
   const theme = useTheme();
   const [loading, setLoading] = useState(false);
-  const [error] = useState(null);
+  const [error, setError] = useState(null);
 
   const {
     handleSubmit,
@@ -37,31 +42,41 @@ function AddServerForm({ handleCloseModal, titleId }) {
   });
 
   async function onSubmit(data) {
-    console.log(data);
+    setError(null);
     setLoading(true);
-    // Use server scanner util to find server
-    // const server = `${data.hostIp}:${data.queryPort}`;
 
-    // const alreadySavedServer = await chromeStorage.getServers({ serverList: [server] });
+    const server = `${data.hostIp}:${data.queryPort}`;
 
-    // console.log(alreadySavedServer, 'AL SAVED SERV');
+    const alreadySavedServer = await chromeStorage.getServer({ server });
 
-    // const [serverResult] = await serverScanner.get({
-    //   serverList: [server],
-    // });
-    // console.log(serverResult, 'RESULT');
-    // // If server is found, save it using chrome storage util
-    // if (serverResult === null) {
-    //   setError(
-    //     'Unable to find server, please make sure the host IP and query port are correct.',
-    //   );
-    // } else {
-    //   await chromeStorage.set({ keyValueMap: { servers: [server] } });
-    // }
-    // setLoading(false);
+    // If server already exists in storage, set error to let user know
+    if (alreadySavedServer) {
+      setError(`${server} has already been saved to your list.`);
+    } else {
+      const [serverResult] = await serverScanner.get({
+        serverList: [server],
+      });
+
+      // If server is not found, set error, let user know else save the server
+      if (serverResult === null) {
+        setError(
+          'Unable to find server, please make sure the host IP and query port are correct.',
+        );
+      } else {
+        const servers = await chromeStorage.getAllServers();
+        const newServer = {
+          ...serverResult,
+          nickname: data?.nickname,
+          notes: data?.notes,
+          queryConnect: server,
+        };
+        await chromeStorage.set({ keys: { servers: [...servers, newServer] } });
+        handleCloseModal();
+      }
+    }
+
+    setLoading(false);
   }
-
-  console.log(loading, error, 'LOADING');
 
   return (
     <Box
@@ -69,6 +84,7 @@ function AddServerForm({ handleCloseModal, titleId }) {
         padding: theme.spacing(2, 3),
         backgroundColor: theme.palette.grey[800],
         width: 350,
+        position: 'relative',
       }}
     >
       <AddServerFormHeader titleId={titleId} closeModal={handleCloseModal} />
@@ -91,6 +107,7 @@ function AddServerForm({ handleCloseModal, titleId }) {
                   {...field}
                   label="Host IP*"
                   id="host-ip-input"
+                  disabled={loading}
                   error={!!errors.hostIp}
                   helperText={errors.hostIp?.message}
                 />
@@ -109,6 +126,7 @@ function AddServerForm({ handleCloseModal, titleId }) {
                   label="Query Port*"
                   id="query-port-input"
                   min={0}
+                  disabled={loading}
                   error={!!errors.queryPort}
                   helperText={errors.queryPort?.message}
                 />
@@ -126,6 +144,7 @@ function AddServerForm({ handleCloseModal, titleId }) {
                   label="Nickname"
                   id="nickname-input"
                   maxLength={NICKNAME_MAX_LENGTH}
+                  disabled={loading}
                   error={!!errors.nickname}
                   helperText={errors.nickname?.message}
                 />
@@ -143,6 +162,7 @@ function AddServerForm({ handleCloseModal, titleId }) {
                   label="Notes"
                   id="server-notes-input"
                   maxLength={NOTES_MAX_LENGTH}
+                  disabled={loading}
                   error={!!errors.notes}
                   helperText={errors.notes?.message}
                 />
@@ -154,6 +174,7 @@ function AddServerForm({ handleCloseModal, titleId }) {
           type="submit"
           variant="contained"
           color="primary"
+          disabled={loading}
           sx={{
             marginLeft: 'auto',
             marginTop: theme.spacing(3),
@@ -162,7 +183,19 @@ function AddServerForm({ handleCloseModal, titleId }) {
         >
           SAVE
         </Button>
+        <HelperText helperText={error} error={error} />
       </form>
+      {loading && (
+        <LinearProgress
+          sx={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            width: '100%',
+          }}
+          color="secondary"
+        />
+      )}
     </Box>
   );
 }

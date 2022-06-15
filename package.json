@@ -3,13 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.9.3",
+    "@emotion/styled": "^11.9.3",
+    "@hookform/resolvers": "^2.9.1",
+    "@mui/icons-material": "^5.8.4",
+    "@mui/material": "^5.8.4",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^11.2.7",
+    "@testing-library/react-hooks": "^8.0.0",
     "@testing-library/user-event": "^12.8.3",
+    "lodash": "^4.17.21",
+    "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-browser-extension-scripts": "4.0.10",
     "react-dom": "^18.2.0",
-    "web-vitals": "^1.1.2"
+    "react-hook-form": "^7.32.1",
+    "web-vitals": "^1.1.2",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",

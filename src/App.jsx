@@ -3,6 +3,7 @@ import React from 'react';
 import useNavigation from './hooks/useNavigation';
 import { Home, Server, Player } from './views';
 import viewNames from './views/viewNames';
+import './App.css';
 
 function App() {
   const { currentView } = useNavigation();

@@ -16,7 +16,7 @@ function HelperText({ helperText, error }) {
       role="alert"
       sx={{
         display: 'flex',
-        alignItems: 'center',
+        alignItems: 'flex-start',
         marginTop: theme.spacing(0.5),
       }}
     >
@@ -26,6 +26,7 @@ function HelperText({ helperText, error }) {
           width: ICON_SIZE,
           height: ICON_SIZE,
           marginRight: theme.spacing(0.5),
+          marginTop: theme.spacing(0.25),
         }}
       />
       <Typography variant="body2" sx={{ color: ERROR_COLOR, fontSize: 12 }}>

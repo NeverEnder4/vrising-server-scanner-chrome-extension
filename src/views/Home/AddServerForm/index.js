@@ -1,3 +1,3 @@
-import AddServerForm from './AddServerForm';
+import AddServerFormContainer from './AddServerFormContainer';
 
-export default AddServerForm;
+export default AddServerFormContainer;

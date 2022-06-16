@@ -22,6 +22,7 @@ const NumberInput = forwardRef(
       max,
       min,
       step,
+      disabled,
     },
     ref,
   ) => {
@@ -61,6 +62,7 @@ const NumberInput = forwardRef(
           max={max}
           min={min}
           step={step}
+          disabled={disabled}
         />
         <HelperText helperText={helperText} error={error} />
       </Box>
@@ -69,17 +71,18 @@ const NumberInput = forwardRef(
 );
 
 NumberInput.defaultProps = {
-  value: undefined,
+  value: '',
   helperText: '',
   error: false,
   disableKeypressStep: false,
   max: undefined,
   min: undefined,
   step: 'any',
+  disabled: false,
 };
 
 NumberInput.propTypes = {
-  value: PropTypes.number,
+  value: PropTypes.string,
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
@@ -91,6 +94,7 @@ NumberInput.propTypes = {
   max: PropTypes.number,
   min: PropTypes.number,
   step: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 export default NumberInput;

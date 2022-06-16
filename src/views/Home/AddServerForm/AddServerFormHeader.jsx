@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 const STORAGE_ICON_SIZE = 14;
 const CLOSE_ICON_SIZE = 20;
 
-function AddServerFormHead({ closeModal, titleId }) {
+function AddServerFormHeader({ closeModal, titleId }) {
   const theme = useTheme();
 
   return (
@@ -61,13 +61,14 @@ function AddServerFormHead({ closeModal, titleId }) {
   );
 }
 
-AddServerFormHead.defaultProps = {
+AddServerFormHeader.defaultProps = {
   titleId: undefined,
+  closeModal: undefined,
 };
 
-AddServerFormHead.propTypes = {
-  closeModal: PropTypes.func.isRequired,
+AddServerFormHeader.propTypes = {
+  closeModal: PropTypes.func,
   titleId: PropTypes.string,
 };
 
-export default AddServerFormHead;
+export default AddServerFormHeader;

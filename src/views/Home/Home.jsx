@@ -37,7 +37,7 @@ function Home() {
       color="primary"
       position="bottomRight"
       size={FAB_DIAMETER}
-      ariaLabel="Add Server"
+      ariaLabel="Add Server Button"
       renderIcon={renderIcon}
     />
   ));

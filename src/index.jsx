@@ -1,22 +1,17 @@
 import React from 'react';
 
-import { ThemeProvider, CssBaseline } from '@mui/material';
 import ReactDOM from 'react-dom/client';
 
+import AllProviders from './AllProviders';
 import App from './App';
-import { NavigationProvider } from './context/NavigationContext';
 import reportWebVitals from './reportWebVitals';
-import theme from './theme';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <NavigationProvider>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <App />
-      </ThemeProvider>
-    </NavigationProvider>
+    <AllProviders>
+      <App />
+    </AllProviders>
   </React.StrictMode>,
 );
 

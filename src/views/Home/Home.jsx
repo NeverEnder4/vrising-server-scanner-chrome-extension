@@ -1,12 +1,14 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material';
 
 import ZoomFab from '../../components/Fab';
 import ButtonModal from '../../components/Modal';
+import ServerList from '../../components/ServerList';
 import useNavigation from '../../hooks/useNavigation';
 import PopupLayout from '../../layouts/PopupLayout';
+import chromeStorage from '../../utils/chromeStorage';
 import viewNames from '../viewNames';
 import AddServerForm from './AddServerForm';
 import FAB_DIAMETER from './constant';
@@ -19,6 +21,20 @@ const MODAL_DESCRIPTION = 'Add a V Rising server using this form';
 function Home() {
   const theme = useTheme();
   const { currentView } = useNavigation();
+
+  const [servers, setServers] = useState(null);
+
+  const loadServers = useCallback(async () => {
+    const savedServers = await chromeStorage.getAllServers();
+
+    setServers(savedServers);
+  }, [setServers, chromeStorage.getAllServers]);
+
+  useEffect(() => {
+    loadServers();
+  }, [loadServers]);
+
+  console.log(servers, 'SERVERS');
 
   const renderIcon = useCallback(() => (
     <AddIcon
@@ -42,10 +58,15 @@ function Home() {
     />
   ));
 
+  function renderContent() {
+    if (servers?.length) return <ServerList servers={servers} />;
+    return <NoServersFound />;
+  }
+
   return (
     <PopupLayout>
       <>
-        <NoServersFound />
+        {renderContent()}
         <ButtonModal
           renderOpenButton={renderOpenButton}
           ariaLabeledBy={MODAL_TITLE}

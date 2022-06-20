@@ -10,16 +10,43 @@ import chromeStorage from '../../utils/chromeStorage';
 import serverScanner from '../../utils/serverScanner';
 
 describe('Home view', () => {
-  describe('No servers saved to chrome storage', () => {
-    it('renders `NoServersFound` component on render', () => {
-      const TITLE = 'NO SERVERS FOUND';
-      const DESCRIPTION = 'Use the button below to add dedicated V Rising servers.';
+  const TITLE = 'NO SERVERS FOUND';
+  const DESCRIPTION = 'Use the button below to add dedicated V Rising servers.';
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  describe('No servers saved to chrome storage on render', () => {
+    it('renders `NoServersFound` component', async () => {
+      jest.spyOn(chromeStorage, 'getAllServers').mockImplementationOnce(async () => ([]));
 
       render(
         <Home />,
       );
+
+      await waitFor(() => {
+        screen.getByText(TITLE);
+      });
+
       expect(screen.getByText(TITLE)).toBeInTheDocument();
       expect(screen.getByText(DESCRIPTION)).toBeInTheDocument();
+    });
+  });
+
+  describe('Servers saved to chrome storage on render', () => {
+    it('renders server list component', async () => {
+      jest.spyOn(chromeStorage, 'getAllServers').mockImplementation(async () => ([{ name: 'My Server' }, { name: 'My Server 2' }]));
+
+      const { queryByRole, queryAllByRole } = render(
+        <Home />,
+      );
+
+      await waitFor(() => {
+        queryByRole('list');
+      });
+
+      expect(queryAllByRole('listitem').length).toBe(2);
     });
   });
 
@@ -29,8 +56,14 @@ describe('Home view', () => {
     const NICKNAME_VALUE = 'Test Server Name';
     const NOTES_VALUE = 'Test Notes';
 
+    jest.spyOn(chromeStorage, 'getAllServers').mockImplementationOnce(async () => ([]));
+
     it('validates inputs', async () => {
       render(<Home />);
+
+      await waitFor(() => {
+        screen.getByText(TITLE);
+      });
 
       user.click(screen.getByLabelText('Add Server Button'));
 
@@ -46,9 +79,14 @@ describe('Home view', () => {
     });
 
     it('validates server already saved to chrome storage', async () => {
+      jest.spyOn(chromeStorage, 'getAllServers').mockImplementationOnce(async () => ([]));
       jest.spyOn(chromeStorage, 'getServer').mockImplementation(async () => ({ host: HOST_VALUE }));
 
       render(<Home />);
+
+      await waitFor(() => {
+        screen.getByText(TITLE);
+      });
 
       user.click(screen.getByLabelText('Add Server Button'));
 
@@ -73,10 +111,15 @@ describe('Home view', () => {
     });
 
     it('validates server not found by server scanner API', async () => {
+      jest.spyOn(chromeStorage, 'getAllServers').mockImplementationOnce(async () => ([]));
       jest.spyOn(chromeStorage, 'getServer').mockImplementation(async () => (null));
       jest.spyOn(serverScanner, 'get').mockImplementation(async () => ([null]));
 
       render(<Home />);
+
+      await waitFor(() => {
+        screen.getByText(TITLE);
+      });
 
       user.click(screen.getByLabelText('Add Server Button'));
 
@@ -101,12 +144,17 @@ describe('Home view', () => {
     });
 
     it('submits form and closes modal on success', async () => {
+      jest.spyOn(chromeStorage, 'getAllServers').mockImplementation(async () => ([]));
       jest.spyOn(chromeStorage, 'getServer').mockImplementation(async () => (null));
       jest.spyOn(serverScanner, 'get').mockImplementation(async () => ([{ host: HOST_VALUE }]));
       jest.spyOn(chromeStorage, 'getAllServers').mockImplementation(async () => ([]));
       jest.spyOn(chromeStorage, 'set').mockImplementation();
 
       render(<Home />);
+
+      await waitFor(() => {
+        screen.getByText(TITLE);
+      });
 
       user.click(screen.getByLabelText('Add Server Button'));
 

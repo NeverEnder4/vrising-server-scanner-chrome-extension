@@ -27,14 +27,14 @@ function Home() {
   const loadServers = useCallback(async () => {
     const savedServers = await chromeStorage.getAllServers();
 
+    console.log(savedServers, 'SERVERS');
+
     setServers(savedServers);
   }, [setServers, chromeStorage.getAllServers]);
 
   useEffect(() => {
     loadServers();
   }, [loadServers]);
-
-  console.log(servers, 'SERVERS');
 
   const renderIcon = useCallback(() => (
     <AddIcon

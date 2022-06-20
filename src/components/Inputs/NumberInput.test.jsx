@@ -12,7 +12,7 @@ describe('NumberInput component', () => {
   const mockOnBlur = jest.fn();
   const ID = 'query-port-input';
   const LABEL = 'Query Port*';
-  const VALUE = 12334;
+  const VALUE = '12334';
   const NAME = 'queryPort';
 
   it('renders the correct components', () => {

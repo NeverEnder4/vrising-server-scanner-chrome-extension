@@ -12,7 +12,7 @@ function ServerList({ servers }) {
     ));
   }
 
-  return <Box>{renderServers()}</Box>;
+  return <Box role="list">{renderServers()}</Box>;
 }
 
 ServerList.defaultProps = {

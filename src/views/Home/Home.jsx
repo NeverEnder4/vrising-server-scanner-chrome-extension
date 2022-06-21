@@ -27,8 +27,6 @@ function Home() {
   const loadServers = useCallback(async () => {
     const savedServers = await chromeStorage.getAllServers();
 
-    console.log(savedServers, 'SERVERS');
-
     setServers(savedServers);
   }, [setServers, chromeStorage.getAllServers]);
 
@@ -59,6 +57,8 @@ function Home() {
   ));
 
   function renderContent() {
+    console.log(servers, 'SERVERS');
+
     if (servers?.length) return <ServerList servers={servers} />;
     return <NoServersFound />;
   }

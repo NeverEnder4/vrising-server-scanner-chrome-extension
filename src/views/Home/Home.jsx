@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import AddIcon from '@mui/icons-material/Add';
-import { useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 
 import ZoomFab from '../../components/Fab';
 import ButtonModal from '../../components/Modal';
@@ -65,7 +65,7 @@ function Home() {
 
   return (
     <PopupLayout>
-      <>
+      <Box sx={{ padding: theme.spacing(2, 3) }}>
         {renderContent()}
         <ButtonModal
           renderOpenButton={renderOpenButton}
@@ -77,7 +77,7 @@ function Home() {
             descriptionId={MODAL_DESCRIPTION}
           />
         </ButtonModal>
-      </>
+      </Box>
     </PopupLayout>
   );
 }

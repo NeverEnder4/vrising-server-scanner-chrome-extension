@@ -8,10 +8,13 @@ export const NavigationContext = React.createContext(viewNames.HOME);
 
 export function NavigationProvider({ children }) {
   const [view, setView] = useState(viewNames.HOME);
+  const [viewState, setViewState] = useState(null);
 
   // useMemo implemented to avoid inlining an object as Provider value which causes
   // unchecked re-renders of Provider
-  const value = useMemo(() => ({ view, setView }), [view]);
+  const value = useMemo(() => ({
+    view, setView, state: viewState, setViewState,
+  }), [view]);
 
   return (
     <NavigationContext.Provider value={value}>

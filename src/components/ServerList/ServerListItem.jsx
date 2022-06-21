@@ -1,10 +1,50 @@
 import React from 'react';
 
+import { ListItem, ListItemButton, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 
+import useNavigation from '../../hooks/useNavigation';
+import viewNames from '../../views/viewNames';
+import ServerListItemPing from './ServerListItemPing';
+import ServerListItemText from './ServerListItemText';
+
 function ServerListItem({ server }) {
+  const theme = useTheme();
+  const { navigate } = useNavigation();
+
+  const serverName = server.nickname || server.name;
+
+  const handleServerClick = () => {
+    navigate({ view: viewNames.SERVER, state: server });
+  };
+
   return (
-    <div>{JSON.stringify(server, null, 2)}</div>
+    <ListItem
+      role="listitem"
+      sx={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        backgroundColor: theme.palette.common.black,
+        boxShadow: theme.shadows[4],
+      }}
+    >
+      <ListItemButton
+        disableGutters
+        onClick={handleServerClick}
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+        }}
+      >
+        <ServerListItemText
+          inset
+          primary={serverName?.toUpperCase()}
+          secondary={server.queryConnect}
+        />
+        <ServerListItemPing ping={server.ping} />
+      </ListItemButton>
+
+    </ListItem>
   );
 }
 

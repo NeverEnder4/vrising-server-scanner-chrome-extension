@@ -43,10 +43,10 @@ describe('Home view', () => {
       );
 
       await waitFor(() => {
-        queryByRole('list');
+        screen.queryByRole('listitem');
       });
 
-      expect(queryAllByRole('listitem').length).toBe(2);
+      expect(screen.queryAllByRole('listitem').length).toBe(2);
     });
   });
 

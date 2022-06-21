@@ -3,13 +3,16 @@ import { useContext } from 'react';
 import { NavigationContext } from '../context/NavigationContext';
 
 function useNavigation() {
-  const { view: currentView, setView } = useContext(NavigationContext);
+  const {
+    view: currentView, setView, viewState, setViewState,
+  } = useContext(NavigationContext);
 
-  function navigate({ view }) {
+  function navigate({ view, state }) {
     setView(view);
+    if (state) setViewState(state);
   }
 
-  return { currentView, navigate };
+  return { currentView, viewState, navigate };
 }
 
 export default useNavigation;

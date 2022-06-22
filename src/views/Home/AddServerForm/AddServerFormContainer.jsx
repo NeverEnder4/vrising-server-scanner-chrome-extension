@@ -6,6 +6,7 @@ import {
 import PropTypes from 'prop-types';
 
 import LinearProgress from '../../../components/Loading/LinearProgress';
+import useServers from '../../../hooks/useServers';
 import chromeStorage from '../../../utils/chromeStorage';
 import serverScanner from '../../../utils/serverScanner';
 import AddServerForm from './AddServerForm';
@@ -13,6 +14,7 @@ import AddServerFormHeader from './AddServerFormHeader';
 
 function AddServerFormContainer({ handleCloseModal, titleId }) {
   const theme = useTheme();
+  const { loadFromStorage } = useServers();
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState(null);
 
@@ -50,6 +52,7 @@ function AddServerFormContainer({ handleCloseModal, titleId }) {
     }
 
     setLoading(false);
+    loadFromStorage();
   }, [setApiError, setLoading]);
 
   return (

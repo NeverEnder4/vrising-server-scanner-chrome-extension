@@ -14,6 +14,7 @@ function useServers() {
   async function refresh() {
     setLoading(true);
     const savedServers = await chromeStorage.getAllServers();
+
     const serverConnectionStrings = savedServers.map(
       (server) => server.queryConnect,
     );
@@ -37,7 +38,7 @@ function useServers() {
 
       return server;
     });
-
+    await chromeStorage.set({ keys: { servers: updatedServers } });
     setServers(updatedServers);
     setLoading(false);
   }

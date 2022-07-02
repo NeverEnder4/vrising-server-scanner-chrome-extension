@@ -23,7 +23,7 @@ function NoServersFound() {
         justifyContent: 'center',
         alignItems: 'center',
         width: CONTAINER_WIDTH,
-        height: `calc(${CONTAINER_WIDTH} - ${HEADER_HEIGHT}px - ${FAB_DIAMETER}px - ${FAB_VERTICAL_MARGIN}px)`,
+        height: `calc(100vh - ${HEADER_HEIGHT}px - ${FAB_DIAMETER}px - ${FAB_VERTICAL_MARGIN}px)`,
       }}
     >
       <StorageIcon

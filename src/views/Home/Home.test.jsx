@@ -28,7 +28,7 @@ describe('Home view', () => {
   });
 
   describe('No servers saved to chrome storage on render', () => {
-    it('renders `NoServersFound` component', async () => {
+    it('does not render any list items', async () => {
       jest.spyOn(chromeStorage, 'getAllServers').mockResolvedValue([]);
 
       jest.spyOn(chromeStorage, 'set').mockResolvedValue();
@@ -62,7 +62,7 @@ describe('Home view', () => {
 
       jest.spyOn(chromeStorage, 'set').mockResolvedValue();
     }
-    it('renders server list component', async () => {
+    it('renders server list component with correct amount of items', async () => {
       setupSpies();
       const { getByRole, queryAllByRole } = await render(<Home />);
 

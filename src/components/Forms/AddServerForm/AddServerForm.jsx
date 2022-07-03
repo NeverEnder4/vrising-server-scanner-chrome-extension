@@ -12,7 +12,7 @@ import {
   NumberInput,
   TextArea,
   HelperText,
-} from '../../../components/Inputs';
+} from '../../Inputs';
 import getSchema from './schema';
 
 const NICKNAME_MAX_LENGTH = 20;
@@ -33,7 +33,6 @@ function AddServerForm({ onSubmit, loading, apiError }) {
   return (
     <form
       style={{
-        marginTop: theme.spacing(3),
         display: 'flex',
         flexDirection: 'column',
       }}

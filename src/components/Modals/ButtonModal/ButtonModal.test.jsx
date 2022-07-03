@@ -2,8 +2,8 @@ import React from 'react';
 
 import { render, fireEvent } from '@testing-library/react';
 
-import ButtonModal from './ButtonModal';
-import { ButtonModalChildMock, renderOpenButton, testIds } from './testHelpers';
+import ButtonModal from '.';
+import { ButtonModalChildMock, renderOpenButton, testIds } from '../testHelpers';
 
 describe('ButtonModal component', () => {
   const MODAL_TITLE = 'Modal Title';

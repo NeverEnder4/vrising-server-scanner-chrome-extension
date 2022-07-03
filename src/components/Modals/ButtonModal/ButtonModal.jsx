@@ -1,13 +1,16 @@
-import React, { useState, useCallback, Children } from 'react';
+import React, { useState, useCallback } from 'react';
 
-import { Modal, Box } from '@mui/material';
+import { Modal } from '@mui/material';
 import PropTypes from 'prop-types';
+
+import ModalLayout from '../ModalLayout';
 
 function ButtonModal({
   children,
   renderOpenButton,
   ariaLabeledBy,
   ariaDescribedBy,
+  renderHeader,
 }) {
   const [open, setOpen] = useState(false);
 
@@ -18,15 +21,6 @@ function ButtonModal({
   const handleClose = useCallback(() => {
     setOpen(false);
   }, [setOpen]);
-
-  const childrenWithProps = Children.map(children, (child) => {
-    // Checking isValidElement is the safe way and avoids a typescript
-    // error too.
-    if (React.isValidElement(child)) {
-      return React.cloneElement(child, { handleCloseModal: handleClose });
-    }
-    return child;
-  });
 
   return (
     <>
@@ -41,7 +35,9 @@ function ButtonModal({
           alignItems: 'center',
         }}
       >
-        <Box>{childrenWithProps}</Box>
+        <ModalLayout renderHeader={renderHeader} handleClose={handleClose}>
+          {children}
+        </ModalLayout>
       </Modal>
       {renderOpenButton({ handleOpenModal: handleOpen })}
     </>
@@ -58,6 +54,7 @@ ButtonModal.propTypes = {
   renderOpenButton: PropTypes.func.isRequired,
   ariaLabeledBy: PropTypes.string,
   ariaDescribedBy: PropTypes.string,
+  renderHeader: PropTypes.func.isRequired,
 };
 
 export default ButtonModal;

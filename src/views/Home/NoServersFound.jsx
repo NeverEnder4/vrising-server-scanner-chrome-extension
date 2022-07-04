@@ -3,8 +3,8 @@ import React from 'react';
 import StorageIcon from '@mui/icons-material/Storage';
 import { Typography, Box, useTheme } from '@mui/material';
 
+import FAB_DIAMETER from '../../components/Modals/AddServerButtonModal/constant';
 import { HEADER_HEIGHT } from '../../layouts/PopupLayout/Header/constant';
-import FAB_DIAMETER from './constant';
 
 const NSF = 'NO SERVERS FOUND';
 const NSF_DESCRIPTION = 'Use the button below to add dedicated V Rising servers.';

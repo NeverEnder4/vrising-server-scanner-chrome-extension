@@ -5,14 +5,13 @@ import {
 } from '@mui/material';
 import PropTypes from 'prop-types';
 
-import LinearProgress from '../../../components/Loading/LinearProgress';
 import useServers from '../../../hooks/useServers';
 import chromeStorage from '../../../utils/chromeStorage';
 import serverScanner from '../../../utils/serverScanner';
+import LinearProgress from '../../Loading/LinearProgress';
 import AddServerForm from './AddServerForm';
-import AddServerFormHeader from './AddServerFormHeader';
 
-function AddServerFormContainer({ handleCloseModal, titleId }) {
+function AddServerFormContainer({ handleCloseModal }) {
   const theme = useTheme();
   const { loadFromStorage } = useServers();
   const [loading, setLoading] = useState(false);
@@ -64,7 +63,6 @@ function AddServerFormContainer({ handleCloseModal, titleId }) {
         position: 'relative',
       }}
     >
-      <AddServerFormHeader titleId={titleId} closeModal={handleCloseModal} />
       <AddServerForm onSubmit={onSubmit} loading={loading} apiError={apiError} />
       <LinearProgress loading={loading} position="absolute" bottom={0} left={0} width="100%" />
     </Box>
@@ -73,12 +71,10 @@ function AddServerFormContainer({ handleCloseModal, titleId }) {
 
 AddServerFormContainer.defaultProps = {
   handleCloseModal: undefined,
-  titleId: undefined,
 };
 
 AddServerFormContainer.propTypes = {
   handleCloseModal: PropTypes.func,
-  titleId: PropTypes.string,
 };
 
 export default AddServerFormContainer;

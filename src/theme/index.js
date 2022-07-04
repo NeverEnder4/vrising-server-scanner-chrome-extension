@@ -36,6 +36,32 @@ const theme = createTheme({
     },
   },
   components: {
+    MuiTabs: {
+      styleOverrides: {
+        root: { height: 50 },
+        indicator: () => ({
+          backgroundColor: theme.palette.secondary.light,
+        }),
+      },
+
+    },
+    MuiTabPanel: {
+      styleOverrides: {
+        root: () => ({ padding: 0, height: 3 }),
+      },
+
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: () => ({
+          color: theme.palette.common.white,
+          fontWeight: 'bold',
+          '&.Mui-selected': {
+            color: theme.palette.secondary.light,
+          },
+        }),
+      },
+    },
     MuiInput: {
       styleOverrides: {
         input: {

@@ -1,13 +1,16 @@
-import React, { useState, useCallback, Children } from 'react';
+import React, { useState, useCallback } from 'react';
 
-import { Modal, Box } from '@mui/material';
+import { Modal } from '@mui/material';
 import PropTypes from 'prop-types';
+
+import { ModalLayout, ModalTabLayout } from './Layouts';
 
 function ButtonModal({
   children,
   renderOpenButton,
   ariaLabeledBy,
   ariaDescribedBy,
+  headerConfig,
 }) {
   const [open, setOpen] = useState(false);
 
@@ -19,14 +22,12 @@ function ButtonModal({
     setOpen(false);
   }, [setOpen]);
 
-  const childrenWithProps = Children.map(children, (child) => {
-    // Checking isValidElement is the safe way and avoids a typescript
-    // error too.
-    if (React.isValidElement(child)) {
-      return React.cloneElement(child, { handleCloseModal: handleClose });
-    }
-    return child;
-  });
+  function getLayout() {
+    if (headerConfig.tabs) return ModalTabLayout;
+    return ModalLayout;
+  }
+
+  const Layout = getLayout();
 
   return (
     <>
@@ -41,7 +42,9 @@ function ButtonModal({
           alignItems: 'center',
         }}
       >
-        <Box>{childrenWithProps}</Box>
+        <Layout headerConfig={headerConfig} handleClose={handleClose}>
+          {children}
+        </Layout>
       </Modal>
       {renderOpenButton({ handleOpenModal: handleOpen })}
     </>
@@ -58,6 +61,20 @@ ButtonModal.propTypes = {
   renderOpenButton: PropTypes.func.isRequired,
   ariaLabeledBy: PropTypes.string,
   ariaDescribedBy: PropTypes.string,
+  headerConfig: PropTypes.oneOfType([
+    PropTypes.shape({
+      tabs: PropTypes.arrayOf(
+        PropTypes.shape({
+          title: PropTypes.string.isRequired,
+          renderPanel: PropTypes.func.isRequired,
+        }),
+      ),
+    }),
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      icon: PropTypes.element,
+    }),
+  ]).isRequired,
 };
 
 export default ButtonModal;

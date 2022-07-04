@@ -3,8 +3,8 @@ import React from 'react';
 import { Box, useTheme } from '@mui/material';
 
 import { HEADER_HEIGHT } from './constant';
-import HeaderButtons from './HeaderButtons';
-import HeaderText from './HeaderText';
+import HeaderLeft from './HeaderLeft';
+import HeaderRight from './HeaderRight';
 
 export function Header() {
   const theme = useTheme();
@@ -22,8 +22,8 @@ export function Header() {
         padding: theme.spacing(1, 2),
       }}
     >
-      <HeaderText />
-      <HeaderButtons />
+      <HeaderLeft />
+      <HeaderRight />
     </Box>
   );
 }

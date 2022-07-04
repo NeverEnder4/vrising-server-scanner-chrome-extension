@@ -3,20 +3,13 @@ import React from 'react';
 import { ListItem, ListItemButton, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 
-import useNavigation from '../../hooks/useNavigation';
-import viewNames from '../../views/viewNames';
 import ServerListItemPing from './ServerListItemPing';
 import ServerListItemText from './ServerListItemText';
 
-function ServerListItem({ server }) {
+function ServerListItem({ server, onClick }) {
   const theme = useTheme();
-  const { navigate } = useNavigation();
 
   const serverName = server.nickname || server.name;
-
-  const handleServerClick = () => {
-    navigate({ view: viewNames.SERVER, state: server });
-  };
 
   return (
     <ListItem
@@ -30,7 +23,7 @@ function ServerListItem({ server }) {
     >
       <ListItemButton
         disableGutters
-        onClick={handleServerClick}
+        onClick={onClick}
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -49,6 +42,7 @@ function ServerListItem({ server }) {
 }
 
 ServerListItem.propTypes = {
+  onClick: PropTypes.func.isRequired,
   server: PropTypes.shape({
     bots: PropTypes.arrayOf(
       PropTypes.shape({

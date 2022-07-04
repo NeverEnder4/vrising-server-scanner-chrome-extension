@@ -1,17 +1,18 @@
 import React, { useCallback } from 'react';
 
 import AddIcon from '@mui/icons-material/Add';
+import StorageIcon from '@mui/icons-material/Storage';
 import { useTheme } from '@mui/material';
 
 import useNavigation from '../../../hooks/useNavigation';
 import viewNames from '../../../views/viewNames';
 import ZoomFab from '../../Fab';
-import { AddServerForm, AddServerFormHeader } from '../../Forms/AddServerForm';
-import ButtonModal from '../ButtonModal/ButtonModal';
+import { AddServerForm } from '../../Forms/AddServerForm';
+import ButtonModal from '../ButtonModal';
 import FAB_DIAMETER from './constant';
 
 const ICON_DIMENSION = 32;
-const MODAL_TITLE = 'Add Server Form';
+const MODAL_TITLE = 'Add Server';
 const MODAL_DESCRIPTION = 'Add a V Rising server using this form';
 
 function AddServerButtonModal() {
@@ -39,15 +40,18 @@ function AddServerButtonModal() {
       renderIcon={renderIcon}
     />
   ));
-  const renderHeader = ({ handleClose }) => (
-    <AddServerFormHeader closeModal={handleClose} titleId={MODAL_TITLE} />
-  );
+
+  const modalHeaderConfig = {
+    title: MODAL_TITLE,
+    renderIcon: (defaultStyles) => (<StorageIcon sx={{ ...defaultStyles }} />),
+  };
+
   return (
     <ButtonModal
       renderOpenButton={renderOpenButton}
       ariaLabeledBy={MODAL_TITLE}
       ariaDescribedBy={MODAL_DESCRIPTION}
-      renderHeader={renderHeader}
+      headerConfig={modalHeaderConfig}
     >
       <AddServerForm
         titleId={MODAL_TITLE}

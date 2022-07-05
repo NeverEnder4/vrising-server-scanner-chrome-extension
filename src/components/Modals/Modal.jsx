@@ -26,6 +26,7 @@ function Modal({
       onClose={handleClose}
       aria-labelledby={ariaLabeledBy}
       aria-describedby={ariaDescribedBy}
+      sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
       <Layout headerConfig={headerConfig} handleClose={handleClose}>{children}</Layout>
     </MuiModal>

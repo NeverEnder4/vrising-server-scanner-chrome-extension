@@ -3,12 +3,13 @@ import React from 'react';
 import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
 
+import ServerMetadata from '../../ServerMetadata';
 import Modal from '../Modal';
 
 const LABELED_BY = 'Server Details Modal';
 const DESCRIBED_BY = 'Details about a specific dedicated server';
 
-function ServerDetailsModal({ open, handleClose, server }) {
+function ServerDetailsModal({ handleClose, server }) {
   const headerConfig = {
     keyExtractor: (tab) => tab.value,
     tabs: [
@@ -16,7 +17,7 @@ function ServerDetailsModal({ open, handleClose, server }) {
         value: 'metadata',
         label: 'Metadata',
         renderPanel: () => (
-          <Box sx={{ width: '100%', backgroundColor: 'white' }}>META</Box>
+          <ServerMetadata />
         ),
       },
       {
@@ -29,11 +30,9 @@ function ServerDetailsModal({ open, handleClose, server }) {
     ],
   };
 
-  console.log(server, 'SERVER MODAL');
-
   return (
     <Modal
-      open={open}
+      open={!!server}
       handleClose={handleClose}
       headerConfig={headerConfig}
       ariaLabeledBy={LABELED_BY}
@@ -44,7 +43,6 @@ function ServerDetailsModal({ open, handleClose, server }) {
 ServerDetailsModal.defaultProps = { server: null };
 
 ServerDetailsModal.propTypes = {
-  open: PropTypes.bool.isRequired,
   handleClose: PropTypes.func.isRequired,
   server: PropTypes.shape({
     bots: PropTypes.arrayOf(

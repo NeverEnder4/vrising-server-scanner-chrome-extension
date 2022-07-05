@@ -19,8 +19,6 @@ const ModalTabLayout = React.forwardRef(
       setTab(newTab);
     };
 
-    console.log(handleClose);
-
     function renderTabs() {
       return tabs.map((tabData) => (
         <Tab
@@ -41,48 +39,39 @@ const ModalTabLayout = React.forwardRef(
 
     return (
       <Box
+        ref={ref}
         sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100%',
+          width: WIDTH,
+          height: 500,
+          position: 'relative',
         }}
       >
-        <Box
-          ref={ref}
+        <CloseButton
           sx={{
-            width: WIDTH,
-            height: 500,
-            position: 'relative',
+            position: 'absolute',
+            transform: 'translateY(-50%)',
+            top: HEADER_HEIGHT / 2,
+            right: theme.spacing(2),
+            zIndex: theme.zIndex.appBar,
           }}
-        >
-          <CloseButton
+          handleClose={handleClose}
+        />
+        <TabContext value={tab}>
+          <Box
             sx={{
-              position: 'absolute',
-              transform: 'translateY(-50%)',
-              top: HEADER_HEIGHT / 2,
-              right: theme.spacing(2),
-              zIndex: theme.zIndex.appBar,
+              backgroundColor: theme.palette.common.black,
+              height: HEADER_HEIGHT,
             }}
-            handleClose={handleClose}
-          />
-          <TabContext value={tab}>
-            <Box
-              sx={{
-                backgroundColor: theme.palette.common.black,
-                height: HEADER_HEIGHT,
-              }}
+          >
+            <TabList
+              onChange={handleChange}
+              aria-label="lab API tabs example"
             >
-              <TabList
-                onChange={handleChange}
-                aria-label="lab API tabs example"
-              >
-                {renderTabs()}
-              </TabList>
-            </Box>
-            {renderPanels()}
-          </TabContext>
-        </Box>
+              {renderTabs()}
+            </TabList>
+          </Box>
+          {renderPanels()}
+        </TabContext>
       </Box>
     );
   },

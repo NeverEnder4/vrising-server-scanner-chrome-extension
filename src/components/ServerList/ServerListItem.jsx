@@ -3,11 +3,17 @@ import React from 'react';
 import { ListItem, ListItemButton, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 
+import useServers from '../../hooks/useServers';
 import ServerListItemPing from './ServerListItemPing';
 import ServerListItemText from './ServerListItemText';
 
-function ServerListItem({ server, onClick }) {
+function ServerListItem({ server }) {
   const theme = useTheme();
+  const { setSelectedServer } = useServers();
+
+  const handleClick = () => {
+    setSelectedServer(server);
+  };
 
   const serverName = server.nickname || server.name;
 
@@ -23,7 +29,7 @@ function ServerListItem({ server, onClick }) {
     >
       <ListItemButton
         disableGutters
-        onClick={onClick}
+        onClick={handleClick}
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -42,7 +48,6 @@ function ServerListItem({ server, onClick }) {
 }
 
 ServerListItem.propTypes = {
-  onClick: PropTypes.func.isRequired,
   server: PropTypes.shape({
     bots: PropTypes.arrayOf(
       PropTypes.shape({

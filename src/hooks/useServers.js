@@ -8,7 +8,7 @@ import serverScanner from '../utils/serverScanner';
 
 function useServers() {
   const {
-    servers, setServers, loading, setLoading,
+    servers, setServers, loading, setLoading, selectedServer, setSelectedServer,
   } = useContext(ServersContext);
 
   async function refresh() {
@@ -56,6 +56,8 @@ function useServers() {
     servers,
     refresh,
     loadFromStorage,
+    selectedServer,
+    setSelectedServer,
   };
 }
 

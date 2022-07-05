@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import StorageIcon from '@mui/icons-material/Storage';
 import {
@@ -6,34 +6,31 @@ import {
 } from '@mui/material';
 import PropTypes from 'prop-types';
 
+import useServers from '../../hooks/useServers';
 import { ServerDetailsModal } from '../Modals';
 import ServerListItem from './ServerListItem';
 
 const ICON_SIZE = 14;
 
 function ServerList({ servers }) {
-  const [serverData, setServerData] = useState(null);
-
+  const { selectedServer, setSelectedServer } = useServers();
   const theme = useTheme();
 
+  console.log(selectedServer, 'TEST');
+
   const handleClose = () => {
-    setServerData(null);
+    setSelectedServer(null);
   };
 
   function renderServers() {
-    return servers.map((server) => {
-      const handleClick = () => {
-        setServerData(server);
-      };
-      return (
-        <ServerListItem onClick={handleClick} key={server.queryConnect} server={server} />
-      );
-    });
+    return servers.map((server) => (
+      <ServerListItem key={server.queryConnect} server={server} />
+    ));
   }
 
   return (
     <>
-      <ServerDetailsModal open={!!serverData} handleClose={handleClose} />
+      <ServerDetailsModal server={selectedServer} handleClose={handleClose} />
       <Box>
         <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: theme.spacing(0.5) }}>
           <StorageIcon

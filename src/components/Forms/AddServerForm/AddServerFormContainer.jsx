@@ -13,11 +13,11 @@ import AddServerForm from './AddServerForm';
 
 function AddServerFormContainer({ handleCloseModal, edit, title }) {
   const theme = useTheme();
-  const { loadFromStorage } = useServers();
+  const { loadFromStorage, selectedServer, editServer } = useServers();
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState(null);
 
-  const onSubmit = useCallback(
+  const onCreateSubmit = useCallback(
     async (data) => {
       setApiError(null);
       setLoading(true);
@@ -59,6 +59,20 @@ function AddServerFormContainer({ handleCloseModal, edit, title }) {
     [setApiError, setLoading],
   );
 
+  const onEditSubmit = useCallback(
+    async (data) => {
+      setApiError(null);
+      setLoading(true);
+
+      const update = { nickname: data?.nickname, notes: data?.notes };
+      await editServer({ server: selectedServer, update });
+
+      setLoading(false);
+      loadFromStorage();
+    },
+    [setApiError, setLoading],
+  );
+
   const renderIcon = (defaultStyles) => (
     <SettingsIcon sx={{ ...defaultStyles }} />
   );
@@ -76,7 +90,7 @@ function AddServerFormContainer({ handleCloseModal, edit, title }) {
       <Box sx={{ paddingTop: title ? theme.spacing(3) : undefined }}>
         <AddServerForm
           edit={edit}
-          onSubmit={onSubmit}
+          onSubmit={edit ? onEditSubmit : onCreateSubmit}
           loading={loading}
           apiError={apiError}
           closeModal={handleCloseModal}

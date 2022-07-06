@@ -62,6 +62,23 @@ async function removeServer({ connectionString }) {
   return newServers;
 }
 
+async function updateServer({ server, update }) {
+  const servers = await getAllServers();
+  const updated = servers.map((savedServer) => {
+    if (server.connect === savedServer.connect) {
+      return {
+        ...savedServer,
+        ...update,
+      };
+    }
+
+    return savedServer;
+  });
+
+  await set({ keys: { servers: updated } });
+  return updated;
+}
+
 export default {
-  get, set, remove, getAllServers, getServer, removeServer,
+  get, set, remove, getAllServers, getServer, removeServer, updateServer,
 };

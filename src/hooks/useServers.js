@@ -58,6 +58,13 @@ function useServers() {
     setLoading(false);
   }
 
+  async function editServer({ server, update }) {
+    setLoading(true);
+    const updated = await chromeStorage.updateServer({ server, update });
+    setServers(updated);
+    setLoading(false);
+  }
+
   return {
     loading,
     servers,
@@ -66,6 +73,7 @@ function useServers() {
     selectedServer,
     setSelectedServer,
     deleteServer,
+    editServer,
   };
 }
 

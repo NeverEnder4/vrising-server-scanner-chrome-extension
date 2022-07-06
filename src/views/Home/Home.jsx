@@ -14,7 +14,6 @@ function Home() {
   const { servers, loading } = useServers();
 
   function renderContent() {
-    console.log(servers, 'SERVERS');
     if (!servers) return null;
     if (servers.length) return <ServerList servers={servers} />;
     return <NoServersFound />;
@@ -24,7 +23,7 @@ function Home() {
     <PopupLayout>
       <>
         <AnimatedViewCover loading={loading} />
-        <Box sx={{ padding: theme.spacing(2, 3) }}>
+        <Box sx={{ padding: theme.spacing(3, 3) }}>
           {renderContent()}
           <AddServerButtonModal />
         </Box>

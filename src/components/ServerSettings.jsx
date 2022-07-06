@@ -3,14 +3,14 @@ import React from 'react';
 import { Box, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 
-import AddServerForm from './Forms/AddServerForm';
+import EditServerForm from './Forms/ServerForms/EditServerForm';
 
 function ServerSettings({ closeModal }) {
   const theme = useTheme();
 
   return (
     <Box sx={{ backgroundColor: theme.palette.grey[800], minHeight: 418 }}>
-      <AddServerForm edit title handleCloseModal={closeModal} />
+      <EditServerForm title handleCloseModal={closeModal} />
     </Box>
   );
 }

@@ -4,20 +4,20 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 
-import useServers from '../../../hooks/useServers';
-import chromeStorage from '../../../utils/chromeStorage';
-import serverScanner from '../../../utils/serverScanner';
-import LinearProgress from '../../Loading/LinearProgress';
-import TitleWithIcon from '../../TitleWithIcon';
+import useServers from '../../../../hooks/useServers';
+import chromeStorage from '../../../../utils/chromeStorage';
+import serverScanner from '../../../../utils/serverScanner';
+import LinearProgress from '../../../Loading/LinearProgress';
+import TitleWithIcon from '../../../TitleWithIcon';
 import AddServerForm from './AddServerForm';
 
-function AddServerFormContainer({ handleCloseModal, edit, title }) {
+function AddServerFormContainer({ handleCloseModal, title }) {
   const theme = useTheme();
-  const { loadFromStorage, selectedServer, editServer } = useServers();
+  const { loadFromStorage } = useServers();
   const [loading, setLoading] = useState(false);
   const [apiError, setApiError] = useState(null);
 
-  const onCreateSubmit = useCallback(
+  const onSubmit = useCallback(
     async (data) => {
       setApiError(null);
       setLoading(true);
@@ -59,20 +59,6 @@ function AddServerFormContainer({ handleCloseModal, edit, title }) {
     [setApiError, setLoading],
   );
 
-  const onEditSubmit = useCallback(
-    async (data) => {
-      setApiError(null);
-      setLoading(true);
-
-      const update = { nickname: data?.nickname, notes: data?.notes };
-      await editServer({ server: selectedServer, update });
-
-      setLoading(false);
-      loadFromStorage();
-    },
-    [setApiError, setLoading],
-  );
-
   const renderIcon = (defaultStyles) => (
     <SettingsIcon sx={{ ...defaultStyles }} />
   );
@@ -89,8 +75,7 @@ function AddServerFormContainer({ handleCloseModal, edit, title }) {
       {title && <TitleWithIcon title="Settings" renderIcon={renderIcon} />}
       <Box sx={{ paddingTop: title ? theme.spacing(3) : undefined }}>
         <AddServerForm
-          edit={edit}
-          onSubmit={edit ? onEditSubmit : onCreateSubmit}
+          onSubmit={onSubmit}
           loading={loading}
           apiError={apiError}
           closeModal={handleCloseModal}
@@ -109,13 +94,11 @@ function AddServerFormContainer({ handleCloseModal, edit, title }) {
 
 AddServerFormContainer.defaultProps = {
   handleCloseModal: undefined,
-  edit: false,
   title: false,
 };
 
 AddServerFormContainer.propTypes = {
   handleCloseModal: PropTypes.func,
-  edit: PropTypes.bool,
   title: PropTypes.bool,
 };
 

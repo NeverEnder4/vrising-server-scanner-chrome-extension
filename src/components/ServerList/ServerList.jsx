@@ -2,21 +2,18 @@ import React from 'react';
 
 import StorageIcon from '@mui/icons-material/Storage';
 import {
-  List, Box, Typography, useTheme,
+  List, Box, useTheme,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import useServers from '../../hooks/useServers';
 import { ServerDetailsModal } from '../Modals';
+import TitleWithIcon from '../TitleWithIcon';
 import ServerListItem from './ServerListItem';
-
-const ICON_SIZE = 14;
 
 function ServerList({ servers }) {
   const { selectedServer, setSelectedServer } = useServers();
   const theme = useTheme();
-
-  console.log(selectedServer, 'TEST');
 
   const handleClose = () => {
     setSelectedServer(null);
@@ -28,28 +25,20 @@ function ServerList({ servers }) {
     ));
   }
 
+  const renderIcon = (defaultStyles) => (
+    <StorageIcon
+      sx={{
+        ...defaultStyles,
+      }}
+    />
+  );
+
   return (
     <>
       <ServerDetailsModal server={selectedServer} handleClose={handleClose} />
       <Box>
-        <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: theme.spacing(0.5) }}>
-          <StorageIcon
-            sx={{
-              fill: theme.palette.secondary.light,
-              width: ICON_SIZE,
-              height: ICON_SIZE,
-              marginRight: theme.spacing(0.5),
-            }}
-          />
-          <Typography
-            sx={{
-              color: theme.palette.secondary.light,
-              fontSize: 12,
-              fontWeight: 'bold',
-            }}
-          >
-            SERVERS - Click on a server to view details
-          </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: theme.spacing(2) }}>
+          <TitleWithIcon title="SERVERS - Click on a server to view details" renderIcon={renderIcon} />
         </Box>
         <List role="list">{renderServers()}</List>
       </Box>

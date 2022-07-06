@@ -3,33 +3,32 @@ import React from 'react';
 import { Button } from '@mui/material';
 import PropTypes from 'prop-types';
 
-import useServers from '../../../hooks/useServers';
-import FormButtons from '../FormButtons';
+import useServers from '../../../../hooks/useServers';
+import FormButtons from '../../FormButtons';
 
-function ServerFormButtons({
-  edit, editMode, loading, toggleEditMode, closeModal,
+function EditServerFormButtons({
+  editMode, loading, toggleEditMode, closeModal,
 }) {
   const { selectedServer, deleteServer } = useServers();
 
   const handleDelete = async () => {
     await deleteServer({ connectionString: selectedServer?.connect });
-    console.log(closeModal, 'TEST CLOSE');
     if (closeModal) closeModal();
   };
 
   const rightButton = (
     <Button
-      onClick={edit && !editMode ? toggleEditMode : undefined}
-      type={!edit || editMode ? 'submit' : 'button'}
+      onClick={editMode ? undefined : toggleEditMode}
+      type={editMode ? 'submit' : 'button'}
       variant="contained"
-      color={!edit || editMode ? 'primary' : 'secondary'}
+      color={editMode ? 'primary' : 'secondary'}
       disabled={loading}
     >
-      {!edit || editMode ? 'SAVE' : 'EDIT'}
+      {editMode ? 'SAVE' : 'EDIT'}
     </Button>
   );
 
-  const leftButton = edit ? (
+  const leftButton = (
     <Button
       onClick={handleDelete}
       type="button"
@@ -40,22 +39,20 @@ function ServerFormButtons({
       DELETE SERVER
 
     </Button>
-  ) : null;
+  );
 
   return <FormButtons leftButton={leftButton} rightButton={rightButton} />;
 }
-ServerFormButtons.defaultProps = {
-  edit: false,
+EditServerFormButtons.defaultProps = {
   editMode: false,
   loading: false,
   toggleEditMode: undefined,
   closeModal: undefined,
 };
-ServerFormButtons.propTypes = {
-  edit: PropTypes.bool,
+EditServerFormButtons.propTypes = {
   editMode: PropTypes.bool,
   loading: PropTypes.bool,
   toggleEditMode: PropTypes.func,
   closeModal: PropTypes.func,
 };
-export default ServerFormButtons;
+export default EditServerFormButtons;

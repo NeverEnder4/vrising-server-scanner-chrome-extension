@@ -7,7 +7,7 @@ import { useTheme } from '@mui/material';
 import useNavigation from '../../../hooks/useNavigation';
 import viewNames from '../../../views/viewNames';
 import ZoomFab from '../../Fab';
-import AddServerForm from '../../Forms/AddServerForm';
+import AddServerForm from '../../Forms/ServerForms/AddServerForm';
 import ButtonModal from '../ButtonModal';
 import FAB_DIAMETER from './constant';
 

@@ -5,19 +5,16 @@ import { Grid } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
 
-import useServers from '../../../hooks/useServers';
-import serverString from '../../../utils/serverString';
-import {
-  TextInput, NumberInput, TextArea, HelperText,
-} from '../../Inputs';
+import useServers from '../../../../hooks/useServers';
+import { TextInput, TextArea, HelperText } from '../../../Inputs';
+import EditServerFormButtons from './EditServerFormButtons';
 import getSchema from './schema';
-import ServerFormButtons from './ServerFormButtons';
 
 const NICKNAME_MAX_LENGTH = 20;
 const NOTES_MAX_LENGTH = 140;
 
-function AddServerForm({
-  onSubmit, loading, apiError, edit, closeModal,
+function EditServerForm({
+  onSubmit, loading, apiError, closeModal,
 }) {
   const [editMode, setEditMode] = useState(false);
   const { selectedServer } = useServers();
@@ -32,11 +29,7 @@ function AddServerForm({
   }, [editMode]);
 
   function getDefaultValues({ server }) {
-    const { hostIp, queryPort } = serverString.parse({ server: server?.queryConnect });
-
     return {
-      hostIp,
-      queryPort,
       nickname: server?.nickname,
       notes: server?.notes,
     };
@@ -48,13 +41,15 @@ function AddServerForm({
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
-    defaultValues: edit ? getDefaultValues({ server: selectedServer }) : undefined,
+    defaultValues: getDefaultValues({ server: selectedServer }),
   });
 
   const toggleEditMode = (e) => {
     e.preventDefault();
     setEditMode(!editMode);
   };
+
+  console.log(control, 'CONTROL');
 
   return (
     <form
@@ -65,43 +60,6 @@ function AddServerForm({
       onSubmit={handleSubmit(onSubmit)}
     >
       <Grid container spacing={2}>
-        <Grid item xs={8}>
-          <Controller
-            name="hostIp"
-            control={control}
-            defaultValue=""
-            render={({ field }) => (
-              <TextInput
-                {...field}
-                label="Host IP*"
-                id="host-ip-input"
-                disabled={loading || (edit && !editMode)}
-                error={!!errors.hostIp}
-                helperText={errors.hostIp?.message}
-                ref={firstInputRef}
-              />
-            )}
-          />
-        </Grid>
-        <Grid item xs={4}>
-          <Controller
-            name="queryPort"
-            control={control}
-            defaultValue={undefined}
-            render={({ field }) => (
-              <NumberInput
-                {...field}
-                disableKeypressStep
-                label="Query Port*"
-                id="query-port-input"
-                min={0}
-                disabled={loading || (edit && !editMode)}
-                error={!!errors.queryPort}
-                helperText={errors.queryPort?.message}
-              />
-            )}
-          />
-        </Grid>
         <Grid item xs={12}>
           <Controller
             name="nickname"
@@ -113,9 +71,10 @@ function AddServerForm({
                 label="Nickname"
                 id="nickname-input"
                 maxLength={NICKNAME_MAX_LENGTH}
-                disabled={loading || (edit && !editMode)}
+                disabled={loading || !editMode}
                 error={!!errors.nickname}
                 helperText={errors.nickname?.message}
+                ref={firstInputRef}
               />
             )}
           />
@@ -131,7 +90,7 @@ function AddServerForm({
                 label="Notes"
                 id="server-notes-input"
                 maxLength={NOTES_MAX_LENGTH}
-                disabled={loading || (edit && !editMode)}
+                disabled={loading || !editMode}
                 error={!!errors.notes}
                 helperText={errors.notes?.message}
               />
@@ -139,26 +98,25 @@ function AddServerForm({
           />
         </Grid>
       </Grid>
-      <ServerFormButtons
-        edit={edit}
+      <EditServerFormButtons
         editMode={editMode}
         loading={loading}
         toggleEditMode={toggleEditMode}
         closeModal={closeModal}
       />
-      <HelperText helperText={apiError} error={!!apiError} />
+      <HelperText helperText={apiError} error={!!apiError} formPosition="bottom" />
     </form>
   );
 }
 
-AddServerForm.defaultProps = {
+EditServerForm.defaultProps = {
   apiError: '',
   onSubmit: undefined,
   edit: false,
   closeModal: undefined,
 };
 
-AddServerForm.propTypes = {
+EditServerForm.propTypes = {
   onSubmit: PropTypes.func,
   loading: PropTypes.bool.isRequired,
   apiError: PropTypes.string,
@@ -166,4 +124,4 @@ AddServerForm.propTypes = {
   closeModal: PropTypes.func,
 };
 
-export default AddServerForm;
+export default EditServerForm;

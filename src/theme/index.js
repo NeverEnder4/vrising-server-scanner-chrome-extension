@@ -41,13 +41,14 @@ const theme = createTheme({
         root: { height: 50 },
         indicator: () => ({
           backgroundColor: theme.palette.secondary.light,
+          height: 3,
         }),
       },
 
     },
     MuiTabPanel: {
       styleOverrides: {
-        root: () => ({ padding: 0, height: 3 }),
+        root: () => ({ padding: 0 }),
       },
 
     },
@@ -92,6 +93,10 @@ const theme = createTheme({
           if (ownerState.color === 'primary' && ownerState.variant === 'contained') {
             styles.backgroundColor = theme.palette.secondary.light;
             styles['&:hover'] = { backgroundColor: theme.palette.secondary.light };
+          } else if (ownerState.color === 'secondary' && ownerState.variant === 'contained') {
+            styles.backgroundColor = theme.palette.common.white;
+            styles.color = theme.palette.common.black;
+            styles['&:hover'] = { backgroundColor: theme.palette.common.white };
           }
 
           return styles;

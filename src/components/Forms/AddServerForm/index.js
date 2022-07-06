@@ -1,4 +1,3 @@
-import AddServerForm from './AddServerFormContainer';
-import AddServerFormHeader from './AddServerFormHeader';
+import AddServerFormContainer from './AddServerFormContainer';
 
-export { AddServerForm, AddServerFormHeader };
+export default AddServerFormContainer;

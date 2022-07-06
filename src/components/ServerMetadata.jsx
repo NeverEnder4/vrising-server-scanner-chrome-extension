@@ -20,14 +20,16 @@ function ServerMetaData() {
     <Box
       sx={{
         backgroundColor: theme.palette.grey[800],
-        padding: theme.spacing(2, 3),
+        padding: theme.spacing(3, 3),
+        minHeight: 418,
       }}
     >
       <TitleWithIcon title="Server Metadata" renderIcon={renderIcon} />
       <Grid
-        sx={{ padding: theme.spacing(2, 0) }}
+        sx={{ padding: theme.spacing(3, 0) }}
         container
         spacing={2}
+        height="auto"
       >
         <Grid item xs={8}>
           <LabelWithText label="Name" text={selectedServer?.name} />
@@ -44,7 +46,7 @@ function ServerMetaData() {
         <Grid item xs={4}>
           <LabelWithText
             label="Days Running"
-            text={selectedServer?.raw?.rules['days-running']}
+            text={selectedServer?.raw?.rules['days-running'] || selectedServer?.raw?.rules['days-runningv2']}
           />
         </Grid>
         <Grid item xs={8}>

@@ -49,12 +49,19 @@ async function getAllServers() {
 async function getServer({ server }) {
   const defaultValue = { servers: [] };
   const response = await get({ keys: defaultValue });
-  console.log(response.servers, 'GET SERVER');
   const targetServer = find(response.servers, { queryConnect: server });
 
   return targetServer || null;
 }
 
+async function removeServer({ connectionString }) {
+  const servers = await getAllServers();
+
+  const newServers = servers.filter((server) => server.connect !== connectionString);
+  await set({ keys: { servers: newServers } });
+  return newServers;
+}
+
 export default {
-  get, set, remove, getAllServers, getServer,
+  get, set, remove, getAllServers, getServer, removeServer,
 };

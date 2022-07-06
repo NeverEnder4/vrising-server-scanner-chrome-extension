@@ -47,10 +47,11 @@ Modal.propTypes = {
   ariaDescribedBy: PropTypes.string,
   headerConfig: PropTypes.oneOfType([
     PropTypes.shape({
+      keyExtractor: PropTypes.func,
       tabs: PropTypes.arrayOf(
         PropTypes.shape({
           title: PropTypes.string,
-          label: PropTypes.label,
+          label: PropTypes.string,
           renderPanel: PropTypes.func,
         }),
       ),

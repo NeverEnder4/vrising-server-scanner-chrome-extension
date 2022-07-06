@@ -10,6 +10,13 @@ const ModalLayout = React.forwardRef(
   ({ headerConfig, handleClose, children }, ref) => {
     const { title, renderIcon } = headerConfig;
 
+    const childrenWithProps = React.Children.map(children, (child) => {
+      if (React.isValidElement(child)) {
+        return React.cloneElement(child, { handleCloseModal: handleClose });
+      }
+      return child;
+    });
+
     return (
       <Box ref={ref}>
         <ModalHeader
@@ -17,7 +24,7 @@ const ModalLayout = React.forwardRef(
           renderIcon={renderIcon}
           handleClose={handleClose}
         />
-        {children}
+        {childrenWithProps}
       </Box>
     );
   },

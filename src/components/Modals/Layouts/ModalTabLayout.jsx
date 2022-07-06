@@ -32,7 +32,7 @@ const ModalTabLayout = React.forwardRef(
     function renderPanels() {
       return tabs.map((tabData) => (
         <TabPanel key={keyExtractor(tabData)} value={tabData.value}>
-          {tabData.renderPanel()}
+          {tabData.renderPanel({ closeModal: handleClose })}
         </TabPanel>
       ));
     }
@@ -42,7 +42,6 @@ const ModalTabLayout = React.forwardRef(
         ref={ref}
         sx={{
           width: WIDTH,
-          height: 500,
           position: 'relative',
         }}
       >
@@ -70,7 +69,9 @@ const ModalTabLayout = React.forwardRef(
               {renderTabs()}
             </TabList>
           </Box>
-          {renderPanels()}
+          <Box>
+            {renderPanels()}
+          </Box>
         </TabContext>
       </Box>
     );
@@ -81,11 +82,11 @@ ModalTabLayout.propTypes = {
   handleClose: PropTypes.func.isRequired,
   headerConfig: PropTypes.shape({
     keyExtractor: PropTypes.func.isRequired,
-    tabs: PropTypes.arrayOf({
+    tabs: PropTypes.arrayOf(PropTypes.shape({
       value: PropTypes.string,
       label: PropTypes.string,
       renderPanel: PropTypes.func,
-    }),
+    })),
   }).isRequired,
 };
 

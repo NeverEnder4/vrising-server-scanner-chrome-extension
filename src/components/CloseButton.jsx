@@ -38,7 +38,7 @@ CloseButton.propTypes = {
   sx: PropTypes.shape({
     position: PropTypes.string,
     transform: PropTypes.string,
-    right: PropTypes.number,
+    right: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     top: PropTypes.number,
     zIndex: PropTypes.number,
   }),

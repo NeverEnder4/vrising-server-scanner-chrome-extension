@@ -1,25 +1,26 @@
 import React from 'react';
 
 import {
-  Box, Typography, useTheme,
+  Box, useTheme,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import CloseButton from '../../CloseButton';
+import TitleWithIcon from '../../TitleWithIcon';
 
 const DEFAULT_ICON_SIZE = 14;
 
 function ModalHeader({ title, renderIcon, handleClose }) {
   const theme = useTheme();
 
-  const titleIcon = typeof renderIcon === 'function'
-    ? renderIcon({
+  const renderStyledIcon = typeof renderIcon === 'function'
+    ? () => renderIcon({
       fill: theme.palette.secondary.light,
       width: DEFAULT_ICON_SIZE,
       height: DEFAULT_ICON_SIZE,
       marginRight: theme.spacing(1),
     })
-    : null;
+    : undefined;
 
   return (
     <Box
@@ -32,21 +33,7 @@ function ModalHeader({ title, renderIcon, handleClose }) {
         padding: theme.spacing(2, 3),
       }}
     >
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-        }}
-      >
-        {titleIcon}
-        <Typography
-          sx={{ color: theme.palette.secondary.light }}
-          variant="body2"
-          id={title}
-        >
-          {title}
-        </Typography>
-      </Box>
+      <TitleWithIcon title={title} renderIcon={renderStyledIcon} />
       <CloseButton handleClose={handleClose} />
     </Box>
   );

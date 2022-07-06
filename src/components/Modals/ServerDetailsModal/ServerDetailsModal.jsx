@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Box } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import ServerMetadata from '../../ServerMetadata';
+import ServerSettings from '../../ServerSettings';
 import Modal from '../Modal';
 
 const LABELED_BY = 'Server Details Modal';
@@ -16,15 +16,13 @@ function ServerDetailsModal({ handleClose, server }) {
       {
         value: 'metadata',
         label: 'Metadata',
-        renderPanel: () => (
-          <ServerMetadata />
-        ),
+        renderPanel: () => <ServerMetadata />,
       },
       {
         value: 'settings',
         label: 'Settings',
-        renderPanel: () => (
-          <Box sx={{ width: '100%', backgroundColor: 'white' }}>SETT</Box>
+        renderPanel: ({ closeModal }) => (
+          <ServerSettings closeModal={closeModal} />
         ),
       },
     ],

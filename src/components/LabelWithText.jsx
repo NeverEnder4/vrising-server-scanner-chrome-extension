@@ -23,7 +23,7 @@ LabelWithText.defaultProps = {
 };
 LabelWithText.propTypes = {
   label: PropTypes.string.isRequired,
-  text: PropTypes.string,
+  text: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 export default LabelWithText;

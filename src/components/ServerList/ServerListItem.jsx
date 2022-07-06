@@ -25,6 +25,7 @@ function ServerListItem({ server }) {
         justifyContent: 'space-between',
         backgroundColor: theme.palette.common.black,
         boxShadow: theme.shadows[4],
+        marginBottom: theme.spacing(1),
       }}
     >
       <ListItemButton

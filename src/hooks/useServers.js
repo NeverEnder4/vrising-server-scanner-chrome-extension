@@ -51,6 +51,20 @@ function useServers() {
     setLoading(false);
   }
 
+  async function deleteServer({ connectionString }) {
+    setLoading(true);
+    const newServerList = await chromeStorage.removeServer({ connectionString });
+    setServers(newServerList);
+    setLoading(false);
+  }
+
+  async function editServer({ server, update }) {
+    setLoading(true);
+    const updated = await chromeStorage.updateServer({ server, update });
+    setServers(updated);
+    setLoading(false);
+  }
+
   return {
     loading,
     servers,
@@ -58,6 +72,8 @@ function useServers() {
     loadFromStorage,
     selectedServer,
     setSelectedServer,
+    deleteServer,
+    editServer,
   };
 }
 

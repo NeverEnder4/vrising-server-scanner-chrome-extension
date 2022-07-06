@@ -1,27 +1,22 @@
 import React from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
-import {
-  Grid, Button, useTheme,
-} from '@mui/material';
+import { Grid } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Controller, useForm } from 'react-hook-form';
 
 import {
-  TextInput,
-  NumberInput,
-  TextArea,
-  HelperText,
-} from '../../Inputs';
+  TextInput, NumberInput, TextArea, HelperText,
+} from '../../../Inputs';
+import AddServerFormButtons from './AddServerFormButtons';
 import getSchema from './schema';
 
 const NICKNAME_MAX_LENGTH = 20;
 const NOTES_MAX_LENGTH = 140;
 
 function AddServerForm({ onSubmit, loading, apiError }) {
-  const theme = useTheme();
-
   const schema = getSchema({ NICKNAME_MAX_LENGTH, NOTES_MAX_LENGTH });
+
   const {
     handleSubmit,
     control,
@@ -112,20 +107,8 @@ function AddServerForm({ onSubmit, loading, apiError }) {
           />
         </Grid>
       </Grid>
-      <Button
-        type="submit"
-        variant="contained"
-        color="primary"
-        disabled={loading}
-        sx={{
-          marginLeft: 'auto',
-          marginTop: theme.spacing(3),
-          marginBottom: theme.spacing(2),
-        }}
-      >
-        SAVE
-      </Button>
-      <HelperText helperText={apiError} error={!!apiError} />
+      <AddServerFormButtons loading={loading} />
+      <HelperText helperText={apiError} error={!!apiError} formPosition="bottom" />
     </form>
   );
 }
@@ -133,12 +116,14 @@ function AddServerForm({ onSubmit, loading, apiError }) {
 AddServerForm.defaultProps = {
   apiError: '',
   onSubmit: undefined,
+  closeModal: undefined,
 };
 
 AddServerForm.propTypes = {
   onSubmit: PropTypes.func,
   loading: PropTypes.bool.isRequired,
   apiError: PropTypes.string,
+  closeModal: PropTypes.func,
 };
 
 export default AddServerForm;

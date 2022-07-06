@@ -4,12 +4,14 @@ import ErrorIcon from '@mui/icons-material/ErrorOutlineOutlined';
 import { Box, Typography, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 
-function HelperText({ helperText, error }) {
+function HelperText({ helperText, error, formPosition }) {
   const theme = useTheme();
   const ERROR_COLOR = theme.palette.error.main;
   const ICON_SIZE = 12;
 
   if (!error || !helperText) return null;
+
+  const marginTop = formPosition === 'input' ? 0.5 : 2;
 
   return (
     <Box
@@ -17,7 +19,7 @@ function HelperText({ helperText, error }) {
       sx={{
         display: 'flex',
         alignItems: 'flex-start',
-        marginTop: theme.spacing(0.5),
+        marginTop: theme.spacing(marginTop),
       }}
     >
       <ErrorIcon
@@ -39,11 +41,13 @@ function HelperText({ helperText, error }) {
 HelperText.defaultProps = {
   helperText: '',
   error: false,
+  formPosition: 'input',
 };
 
 HelperText.propTypes = {
   helperText: PropTypes.string,
   error: PropTypes.bool,
+  formPosition: PropTypes.oneOf(['input', 'bottom']),
 };
 
 export default HelperText;

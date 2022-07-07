@@ -9,7 +9,7 @@ function ServerSettings({ closeModal }) {
   const theme = useTheme();
 
   return (
-    <Box sx={{ backgroundColor: theme.palette.grey[800], minHeight: 418 }}>
+    <Box sx={{ backgroundColor: theme.palette.grey[800] }}>
       <EditServerForm title handleCloseModal={closeModal} />
     </Box>
   );

@@ -1,6 +1,7 @@
 import { useContext } from 'react';
 
 import find from 'lodash/find';
+import moment from 'moment';
 
 import { ServersContext } from '../context/ServersContext';
 import chromeStorage from '../utils/chromeStorage';
@@ -27,16 +28,21 @@ function useServers() {
       const scannedServerMatch = find(scannedServers, {
         connect: server.connect,
       });
+
+      const lastUpdated = moment().toDate();
+
       if (scannedServerMatch) {
         return {
           ...scannedServerMatch,
+          lastUpdated,
           nickname: server?.nickname,
           notes: server.notes,
           queryConnect: server.queryConnect,
+          queryFailed: false,
         };
       }
 
-      return server;
+      return { ...server, lastUpdated, queryFailed: true };
     });
     await chromeStorage.set({ keys: { servers: updatedServers } });
     setServers(updatedServers);

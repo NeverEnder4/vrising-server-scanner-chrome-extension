@@ -11,7 +11,7 @@ const theme = createTheme({
     },
     secondary: {
       main: '#266B88',
-      light: '#7FAEC1',
+      light: '#51C5F4',
     },
     grey: {
       800: '#404751',
@@ -92,6 +92,7 @@ const theme = createTheme({
 
           if (ownerState.color === 'primary' && ownerState.variant === 'contained') {
             styles.backgroundColor = theme.palette.secondary.light;
+            styles.color = theme.palette.common.black;
             styles['&:hover'] = { backgroundColor: theme.palette.secondary.light };
           } else if (ownerState.color === 'secondary' && ownerState.variant === 'contained') {
             styles.backgroundColor = theme.palette.common.white;

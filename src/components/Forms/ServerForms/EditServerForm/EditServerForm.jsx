@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Grid } from '@mui/material';
@@ -14,9 +14,13 @@ const NICKNAME_MAX_LENGTH = 20;
 const NOTES_MAX_LENGTH = 140;
 
 function EditServerForm({
-  onSubmit, loading, apiError, closeModal,
+  onSubmit,
+  loading,
+  apiError,
+  closeModal,
+  editMode,
+  toggleEditMode,
 }) {
-  const [editMode, setEditMode] = useState(false);
   const { selectedServer } = useServers();
 
   const firstInputRef = useRef();
@@ -43,13 +47,6 @@ function EditServerForm({
     resolver: yupResolver(schema),
     defaultValues: getDefaultValues({ server: selectedServer }),
   });
-
-  const toggleEditMode = (e) => {
-    e.preventDefault();
-    setEditMode(!editMode);
-  };
-
-  console.log(control, 'CONTROL');
 
   return (
     <form
@@ -104,7 +101,11 @@ function EditServerForm({
         toggleEditMode={toggleEditMode}
         closeModal={closeModal}
       />
-      <HelperText helperText={apiError} error={!!apiError} formPosition="bottom" />
+      <HelperText
+        helperText={apiError}
+        error={!!apiError}
+        formPosition="bottom"
+      />
     </form>
   );
 }
@@ -122,6 +123,8 @@ EditServerForm.propTypes = {
   apiError: PropTypes.string,
   edit: PropTypes.bool,
   closeModal: PropTypes.func,
+  editMode: PropTypes.bool.isRequired,
+  toggleEditMode: PropTypes.func.isRequired,
 };
 
 export default EditServerForm;

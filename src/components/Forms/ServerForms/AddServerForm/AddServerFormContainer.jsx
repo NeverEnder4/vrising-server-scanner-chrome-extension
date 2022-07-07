@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 
 import SettingsIcon from '@mui/icons-material/Settings';
 import { Box, useTheme } from '@mui/material';
+import moment from 'moment';
 import PropTypes from 'prop-types';
 
 import useServers from '../../../../hooks/useServers';
@@ -44,11 +45,12 @@ function AddServerFormContainer({ handleCloseModal, title }) {
             nickname: data?.nickname,
             notes: data?.notes,
             queryConnect: server,
+            lastUpdated: moment().toDate(),
+            queryFailed: false,
           };
           await chromeStorage.set({
             keys: { servers: [...servers, newServer] },
           });
-          console.log(handleCloseModal, typeof handleCloseModal, 'TEST CLOSE MOD');
           if (typeof handleCloseModal === 'function') handleCloseModal();
         }
       }
@@ -66,7 +68,10 @@ function AddServerFormContainer({ handleCloseModal, title }) {
   return (
     <Box
       sx={{
-        padding: theme.spacing(3, 3),
+        paddingTop: theme.spacing(3),
+        paddingBottom: theme.spacing(5),
+        paddingLeft: theme.spacing(3),
+        paddingRight: theme.spacing(3),
         backgroundColor: theme.palette.grey[800],
         width: 350,
         position: 'relative',

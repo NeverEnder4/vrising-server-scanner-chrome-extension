@@ -65,6 +65,11 @@ function useServers() {
     setLoading(false);
   }
 
+  async function saveServers({ serverList }) {
+    setServers(serverList);
+    await chromeStorage.set({ keys: { servers: serverList } });
+  }
+
   return {
     loading,
     servers,
@@ -72,6 +77,7 @@ function useServers() {
     loadFromStorage,
     selectedServer,
     setSelectedServer,
+    saveServers,
     deleteServer,
     editServer,
   };

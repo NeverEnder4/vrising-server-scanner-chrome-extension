@@ -1,18 +1,19 @@
 import React from 'react';
 
+import { arrayMove } from '@dnd-kit/sortable';
 import StorageIcon from '@mui/icons-material/Storage';
-import {
-  List, Box, useTheme,
-} from '@mui/material';
+import { List, Box, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import useServers from '../../hooks/useServers';
+import Sortable from '../DndKit/Sortable';
+import SortableVerticalListContext from '../DndKit/SortableVerticalListContext';
 import { ServerDetailsModal } from '../Modals';
 import TitleWithIcon from '../TitleWithIcon';
 import ServerListItem from './ServerListItem';
 
 function ServerList({ servers }) {
-  const { selectedServer, setSelectedServer } = useServers();
+  const { selectedServer, setSelectedServer, saveServers } = useServers();
   const theme = useTheme();
 
   const handleClose = () => {
@@ -20,9 +21,17 @@ function ServerList({ servers }) {
   };
 
   function renderServers() {
-    return servers.map((server) => (
-      <ServerListItem key={server.queryConnect} server={server} />
-    ));
+    return servers.map((server) => {
+      const onClick = () => {
+        setSelectedServer(server);
+      };
+
+      return (
+        <Sortable id={server.queryConnect} key={server.queryConnect}>
+          <ServerListItem onClick={onClick} server={server} />
+        </Sortable>
+      );
+    });
   }
 
   const renderIcon = (defaultStyles) => (
@@ -33,14 +42,46 @@ function ServerList({ servers }) {
     />
   );
 
+  const handleDragEnd = async (event) => {
+    const { active, over } = event;
+
+    if (active.id !== over.id) {
+      const oldIndex = servers.findIndex(
+        (item) => item.queryConnect === active.id,
+      );
+
+      const newIndex = servers.findIndex(
+        (item) => item.queryConnect === over.id,
+      );
+
+      const newOrder = arrayMove(servers, oldIndex, newIndex);
+
+      saveServers({ serverList: newOrder });
+    }
+  };
+
   return (
     <>
       <ServerDetailsModal server={selectedServer} handleClose={handleClose} />
       <Box>
-        <Box sx={{ display: 'flex', alignItems: 'center', marginBottom: theme.spacing(2) }}>
-          <TitleWithIcon title="SERVERS - Click on a server to view details" renderIcon={renderIcon} />
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            marginBottom: theme.spacing(2),
+          }}
+        >
+          <TitleWithIcon
+            title="SERVERS - Click on a server to view details"
+            renderIcon={renderIcon}
+          />
         </Box>
-        <List role="list">{renderServers()}</List>
+        <SortableVerticalListContext
+          handleDragEnd={handleDragEnd}
+          items={servers.map((server) => server.queryConnect)}
+        >
+          <List role="list">{renderServers()}</List>
+        </SortableVerticalListContext>
       </Box>
     </>
   );

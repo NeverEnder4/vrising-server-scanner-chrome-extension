@@ -46,6 +46,11 @@ async function getAllServers() {
   return response.servers;
 }
 
+async function setServers({ servers }) {
+  const result = await set({ keys: { servers } });
+  return result;
+}
+
 async function getServer({ server }) {
   const defaultValue = { servers: [] };
   const response = await get({ keys: defaultValue });
@@ -80,5 +85,5 @@ async function updateServer({ server, update }) {
 }
 
 export default {
-  get, set, remove, getAllServers, getServer, removeServer, updateServer,
+  get, set, remove, getAllServers, getServer, removeServer, updateServer, setServers,
 };
